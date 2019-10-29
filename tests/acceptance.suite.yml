@@ -1,0 +1,18 @@
+# Codeception Test Suite Configuration
+#
+# Suite for acceptance tests.
+# Perform tests in browser using the WebDriver or PhpBrowser.
+# If you need both WebDriver and PHPBrowser tests - create a separate suite.
+
+actor: AcceptanceTester
+modules:
+    enabled:
+        - WebDriver:
+            url: 'https://alogin.compilo.tech/99x'
+            browser: 'chrome'
+#            window_size: 1024x768
+            wait: 10
+            capabilities:
+                unexpectedAlertBehaviour: 'accept'
+        - \Helper\Acceptance
+    step_decorators: ~        
