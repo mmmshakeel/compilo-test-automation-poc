@@ -5,15 +5,41 @@ use Page\Acceptance\ReportNc;
 
 class ReportNcCest
 {
-    private $reportSubject1 = 'Test Subject 1';
-    private $reportSubject2 = 'Test Subject 2';
+    private $reportSubject1;
+    private $reportSubject2;
+
+    private $description1;
+    private $description2;
+
+    private $consequences1;
+    private $consequences2;
+
+    private $improvements1;
+    private $improvements2;
+
+    public function __construct()
+    {
+        $faker = Faker\Factory::create();
+        $this->reportSubject1 = $faker->words(2, true);
+        $this->reportSubject2 = $faker->words(2, true);
+
+        $this->description1 = $faker->text;
+        $this->description2 = $faker->text;
+
+        $this->consequences1 = $faker->text;
+        $this->consequences2 = $faker->text;
+
+        $this->improvements1 = $faker->text;
+        $this->improvements2 = $faker->text;
+    }
 
     public function _before(AcceptanceTester $I)
     {
+
     }
 
     // tests
-    public function submitNcToPrimaryUnitAsEmployee(AcceptanceTester $I, Login $login, ReportNc $reportNc)
+    public function submitNcToPrimaryUnitAsEmployeeTest(AcceptanceTester $I, Login $login, ReportNc $reportNc)
     {
         $login->login($login::$employeeUsername, $login::$employeePassword);
 
@@ -22,10 +48,10 @@ class ReportNcCest
             'severity' => 'low',
             'timeHour' => '8',
             'timeMin' => '30',
-            'description' => 'This is a test decription added by automation test',
+            'description' => $this->description1,
             'category' => 'hse',
-            'consequences' => 'Consequences added by automation',
-            'improvement' => 'improvement added by kasun',
+            'consequences' => $this->consequences1,
+            'improvement' => $this->improvements1,
             'reportingUnit' => 'Primary unit (Compilo, Leader)'
         ];
 
@@ -34,20 +60,23 @@ class ReportNcCest
         //submit verification
         $I->wait(5);
         $I->see($reportNc->confirmationPageTitle);
-        $I->see($data['subject']);
+        $I->see($this->reportSubject1);
         $I->see('Compilo, ' . ucfirst($login::$employeeUsername));
         $I->see($data['reportingUnit']);
         $I->see(ucfirst($data['severity']));
+        $I->see($this->description1);
+        $I->see($this->consequences1);
+        $I->see($this->improvements1);
 
         // submit NC
         $reportNc->submitConfirm();
 
         // verify the dashboard
         $I->wait(5);
-        $I->see($data['subject']);
+        $I->see($this->reportSubject1);
     }
 
-    public function submitNcToSecondaryUnitAsEmployee(AcceptanceTester $I, Login $login, ReportNc $reportNc)
+    public function submitNcToSecondaryUnitAsEmployeeTest(AcceptanceTester $I, Login $login, ReportNc $reportNc)
     {
         $login->login($login::$employeeUsername, $login::$employeePassword);
 
@@ -56,10 +85,10 @@ class ReportNcCest
             'severity' => 'low',
             'timeHour' => '8',
             'timeMin' => '30',
-            'description' => 'This is a test decription added by automation test',
+            'description' => $this->description2,
             'category' => 'hse',
-            'consequences' => 'Consequences added by automation',
-            'improvement' => 'improvements',
+            'consequences' => $this->consequences2,
+            'improvement' => $this->improvements2,
             'reportingUnit' => 'Secondary unit (Compilo, Leader)'
         ];
 
@@ -68,18 +97,44 @@ class ReportNcCest
         //submit verification
         $I->wait(5);
         $I->see($reportNc->confirmationPageTitle);
-        $I->see($data['subject']);
+        $I->see($this->reportSubject2);
         $I->see('Compilo, ' . ucfirst($login::$employeeUsername));
         $I->see($data['reportingUnit']);
         $I->see(ucfirst($data['severity']));
+        $I->see($this->description2);
+        $I->see($this->consequences2);
+        $I->see($this->improvements2);
 
         // submit NC
         $reportNc->submitConfirm();
 
         // verify the dashboard
         $I->wait(5);
-        $I->see($data['subject']);
+        $I->see($this->reportSubject2);
     }
 
+    public function leaderCheckSubmittedReportsListTest(AcceptanceTester $I, Login $login, ReportNc $reportNc)
+    {
+        $login->login($login::$leaderUsername, $login::$leaderPassword);
 
+        // verify the list
+        $I->wait(5);
+        $I->see($this->reportSubject1);
+        $I->see($this->reportSubject2);
+    }
+
+    public function leaderCheckSubmittedReportDetailsTest(AcceptanceTester $I, Login $login, ReportNc $reportNc)
+    {
+        $login->login($login::$leaderUsername, $login::$leaderPassword);
+
+        // verify the reports detail page
+        $I->wait(5);
+        $I->click($this->reportSubject1);
+        $I->wait(5);
+        $I->see($this->reportSubject1);
+        $I->see($this->description1);
+        $I->see($this->consequences1);
+        $I->see($this->improvements1);
+        $I->see($reportNc->leaderStatusNotRead, $reportNc->leaderStatusEl);
+    }
 }
