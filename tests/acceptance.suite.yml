@@ -10,7 +10,7 @@ modules:
         - WebDriver:
             url: 'https://alogin.compilo.tech/99x'
             browser: 'chrome'
-            window_size: 1024x768
+            window_size: 'maximize'
             wait: 10
             capabilities:
                 unexpectedAlertBehaviour: 'accept'

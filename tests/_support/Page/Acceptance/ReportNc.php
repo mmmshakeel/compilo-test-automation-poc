@@ -39,6 +39,10 @@ class ReportNc
     public $NcSubmitButton = ['xpath' => '//*[@id="ksxavvikskjema"]/span[2]/span/a[3]'];
     public $NcConfirmSubmitButton = '#wizsendinn';
 
+    public $leaderStatusEl = ['xpath' => '//span[contains(@class, "avvikmeta")]/span[0]'];
+    public $leaderStatusNotRead = 'Not read';
+    public $leaderStatusClosed = 'Closed';
+
 
     /**
      * Basic route example for your current URL
