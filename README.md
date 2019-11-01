@@ -19,7 +19,7 @@ Keep the selenium server running and run the following command in another termin
 ` vendor/bin/codecept run acceptance --steps --env=firefox`
 
 #### Run tests in internet explorer
-`java -Dwebdriver.ie.driver=drivers/IEDriverServer.exe -jar server/selenium-server-standalone-3.8.1.jar`
+`java -Dwebdriver.ie.driver=drivers/IEDriverServer.exe -jar server/selenium-server-standalone-3.8.1.jar -enablePassThrough false`
 
 Keep the selenium server running and run the following command in another terminal 
 
