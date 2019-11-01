@@ -8,11 +8,29 @@ actor: AcceptanceTester
 modules:
     enabled:
         - WebDriver:
+        - \Helper\Acceptance
+    config:
+        WebDriver:
             url: 'https://alogin.compilo.tech/99x'
             browser: 'chrome'
             window_size: 'maximize'
             wait: 10
             capabilities:
                 unexpectedAlertBehaviour: 'accept'
-        - \Helper\Acceptance
-    step_decorators: ~        
+    step_decorators: ~
+
+env:
+    chrome:
+        # default to chrome
+
+    ie:
+        modules:
+            config:
+                WebDriver:
+                    browser: 'internet explorer'
+
+    firefox:
+        modules:
+            config:
+                WebDriver:
+                    browser: 'firefox'
