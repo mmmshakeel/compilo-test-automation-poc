@@ -46,7 +46,7 @@ class ReportNcCest
         $data = [
             'subject' => $this->reportSubject1,
             'severity' => 'low',
-            'timeHour' => '8',
+            'timeHour' => '1',
             'timeMin' => '30',
             'description' => $this->description1,
             'category' => 'hse',
@@ -83,7 +83,7 @@ class ReportNcCest
         $data = [
             'subject' => $this->reportSubject2,
             'severity' => 'low',
-            'timeHour' => '8',
+            'timeHour' => '1',
             'timeMin' => '30',
             'description' => $this->description2,
             'category' => 'hse',
@@ -119,6 +119,8 @@ class ReportNcCest
 
         // verify the list
         $I->wait(5);
+        $I->click($reportNc->leaderOpenReports);
+        $I->waitForElementVisible($reportNc->leaderReportList);
         $I->see($this->reportSubject1);
         $I->see($this->reportSubject2);
     }
@@ -129,12 +131,34 @@ class ReportNcCest
 
         // verify the reports detail page
         $I->wait(5);
-        $I->click($this->reportSubject1);
+        $I->click($reportNc->leaderOpenReports);
+        $I->waitForElementVisible($reportNc->leaderReportList);
+        $I->click($reportNc->leaderFirstReportEl);
         $I->wait(5);
-        $I->see($this->reportSubject1);
-        $I->see($this->description1);
-        $I->see($this->consequences1);
-        $I->see($this->improvements1);
-        $I->see($reportNc->leaderStatusNotRead, $reportNc->leaderStatusEl);
+
+        $I->see($this->reportSubject2);
+        $I->see($this->description2);
+        $I->see($this->consequences2);
+        $I->see($this->improvements2);
+    }
+
+    /*
+     * This is an intentionally failed to demonstrate the reports
+     */
+    public function leaderCheckSubmittedReportDetailsFailTest(AcceptanceTester $I, Login $login, ReportNc $reportNc)
+    {
+        $login->login($login::$leaderUsername, $login::$leaderPassword);
+
+        // verify the reports detail page
+        $I->wait(5);
+        $I->click($reportNc->leaderOpenReports);
+        $I->waitForElementVisible($reportNc->leaderReportList);
+        $I->click($reportNc->leaderFirstReportEl);
+        $I->wait(5);
+
+        $I->see($this->reportSubject2);
+        $I->see($this->description2);
+        $I->see($this->consequences2);
+        $I->see('xxx');
     }
 }

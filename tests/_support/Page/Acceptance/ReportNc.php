@@ -9,7 +9,9 @@ class ReportNc
     public $pageTitle = 'NC';
     public $confirmationPageTitle = 'Forhåndsvisning';
 
-    public $reportNcIcon = 'Report NC';
+    public $reportNcIcon = '/html/body/span[2]/span[1]/div/span[2]/span[1]/a[1]';
+//    public $reportNcIcon = ['xpath' => '/html/body/span[2]/span[1]/div/span[2]/span[1]/a[1]'];
+//    public $reportNcIcon = 'Report NC';
     public $subjectField = '#newreptexts';
     public $startReportButton = '#startReportSubmit';
 
@@ -20,7 +22,7 @@ class ReportNc
     public $severityHigh = '#agx3';
 
     public $dateSelector = '#nctxtDate';
-    public $calendarDate = ['xpath' => '//*[@id="actionday"]/div/table/tbody/tr[4]/td[7]/a'];
+    public $calendarDate = ['xpath' => '//*[@id="actionday"]/div/table/tbody/tr[1]/td[5]/a'];
     public $timeHour = 'time';
     public $timeMin = 'min';
 
@@ -39,7 +41,10 @@ class ReportNc
     public $NcSubmitButton = ['xpath' => '//*[@id="ksxavvikskjema"]/span[2]/span/a[3]'];
     public $NcConfirmSubmitButton = '#wizsendinn';
 
-    public $leaderStatusEl = ['xpath' => '//span[contains(@class, "avvikmeta")]/span[0]'];
+    public $leaderOpenReports = ['xpath' => '//*[@id="tlGroup4"]/a'];
+    public $leaderReportList = '#inbxResList';
+    public $leaderFirstReportEl = ['xpath' => '//*[@id="inbxResList"]/span[1]'];
+    public $leaderStatusEl = ['xpath' => '//*[@id="avvikreport26"]/span[4]/span[1]'];
     public $leaderStatusNotRead = 'Not read';
     public $leaderStatusClosed = 'Closed';
 
@@ -100,7 +105,8 @@ class ReportNc
 
         $I->wait(5);
         $I->click($this->reportNcIcon);
-        $I->wait(5);
+        $I->wait(10);
+//        $I->waitForElementVisible($this->subjectField);
         $I->fillField($this->subjectField, $data['subject']);
         $I->click($this->startReportButton);
 
